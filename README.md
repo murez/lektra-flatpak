@@ -36,7 +36,7 @@ flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flath
 
 3. Install the runtime and SDK:
 ```bash
-flatpak install --user flathub org.kde.Platform/x86_64/6.6 org.kde.Sdk/x86_64/6.6
+flatpak install --user flathub org.kde.Platform/x86_64/6.10 org.kde.Sdk/x86_64/6.10
 ```
 
 4. Build the application:
