@@ -20,8 +20,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/jlaurens/synctex
-        tag: v2.0.0
-        commit: 2b10e98f69e1839811a42eff15f1c72ca3c89cb5
+        tag: 2023.4\(TeXLive\)
+        commit: c30952e75ec71741fa802804f0a216b496622e52
 
   - name: mupdf
     buildsystem: simple
