@@ -1,0 +1,29 @@
+# Flatpak build artifacts
+build-dir/
+.builddir/
+.flatpak-builder/
+.flatpak/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build output
+*.flatpak
+*.tar.gz
+*.zip
+
+# Temporary directories
+lektra-source/
+temp/
+tmp/
+
+# Logs
+*.log

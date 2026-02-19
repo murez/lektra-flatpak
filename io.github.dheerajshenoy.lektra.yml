@@ -1,0 +1,54 @@
+app-id: io.github.dheerajshenoy.lektra
+runtime: org.kde.Platform
+runtime-version: "6.6"
+sdk: org.kde.Sdk
+command: lektra
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --share=network
+  - --filesystem=home
+
+modules:
+  - name: synctex
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DSYNCTEX_VERSION_STRING="2.0.0"
+    sources:
+      - type: git
+        url: https://github.com/jlaurens/synctex
+        tag: v2.0.0
+        commit: 2b10e98f69e1839811a42eff15f1c72ca3c89cb5
+
+  - name: mupdf
+    buildsystem: simple
+    build-commands:
+      - make USE_SYSTEM_LIBS=yes USE_GLUT=no build=release libs -j${FLATPAK_BUILDER_N_JOBS}
+    sources:
+      - type: git
+        url: https://github.com/ArtifexSoftware/mupdf
+        commit: 98a961e52fead7089eacd7f1fd17a44864043b7a
+
+  - name: lektra
+    buildsystem: simple
+    build-commands:
+      # Setup MuPDF at expected location
+      - git submodule init
+      - cp -r /app/src/mupdf/* external/mupdf/
+      - cmake -B build -DCMAKE_BUILD_TYPE=Release -DENABLE_LLM_SUPPORT=OFF -DCMAKE_INSTALL_PREFIX=/app
+      - cmake --build build --parallel ${FLATPAK_BUILDER_N_JOBS}
+      - cmake --install build
+      # Install icons
+      - install -Dm644 resources/hicolor/256x256/apps/lektra.png /app/share/icons/hicolor/256x256/apps/io.github.dheerajshenoy.lektra.png
+      - install -Dm644 resources/hicolor/32x32/apps/lektra.png /app/share/icons/hicolor/32x32/apps/io.github.dheerajshenoy.lektra.png
+      - install -Dm644 resources/hicolor/22x22/apps/lektra.png /app/share/icons/hicolor/22x22/apps/io.github.dheerajshenoy.lektra.png
+      - install -Dm644 resources/hicolor/16x16/apps/lektra.png /app/share/icons/hicolor/16x16/apps/io.github.dheerajshenoy.lektra.png
+    sources:
+      - type: git
+        url: https://github.com/dheerajshenoy/lektra
+        tag: v0.6.2
+        commit: 3db7d8f1f7f7cefa3d5a5cf4a84f887f26d5b8f4
+
